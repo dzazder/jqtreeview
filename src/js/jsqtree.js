@@ -4,22 +4,6 @@
 		// read default options
 		var opts = $.extend( {}, $.fn.qtree.defaults, options);
 		
-		// draggable options if enabled
-		if (opts.draggable) {
-			this.find("li").draggable({ revert: true, helper: "clone" });
-			this.parent().droppable({
-				accept: "li",
-				classes: {
-					"ui-droppable-active": "ui-state-active",
-					"ui-droppable-hover": "ui-state-hover"
-				},
-				drop: function(event, ui) {
-					createList(ui.draggable);
-					$(this).find('ul.qtree').append(ui.draggable.clone(true));
-				}
-			});
-		}
-		
 		// set plus icon within sublists
 		var faiconplus = 'fa-plus';
 		if (opts.faicon.length > 0) {
@@ -54,6 +38,27 @@
 				}
 			});
 		}
+		
+		// draggable options if enabled
+		if (opts.draggable) {
+			this.find("li").draggable({ revert: true, helper: "clone" });
+			this.parent().droppable({
+				accept: "li",
+				classes: {
+					"ui-droppable-active": "ui-state-active",
+					"ui-droppable-hover": "ui-state-hover"
+				},
+				drop: function(event, ui) {
+					createList(ui.draggable);
+					$(this).find('ul.qtree').append(ui.draggable.clone(true));
+				}
+			});
+		}
+		
+		// li class option is enabled
+		if (opts.liclass) {
+			this.find('li').addClass(opts.liclass);
+		}
     };
 
 } (jQuery));
@@ -63,7 +68,8 @@ $.fn.qtree.defaults = {
 	draggable: false,
 	clickselected: true,
 	faicon: '',
-	drillIcons: ''
+	drillIcons: '',
+	liclass: 'default'
 };
 
 // create list function after drop of draggable element
