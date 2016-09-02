@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../../src/css/jsqtree.css">
+	<script src="../../src/js/jsqtree.js"></script>
+	
+	<script>
+		$(document).ready(function() {
+			$('#qtree-getstarted').qtree();
+		});
+	</script>
+</head>
+<body>
+	<ul id="qtree-getstarted" class="qtree">
+		<li><span>Level 1 menu item A</span>
+			<ul>
+				<li><span>Level 2 menu item A</span>
+					<ul>
+						<li><span>Level 3 item A</span></li>
+						<li><span>Level 3 item B</span></li>
+						<li><span>Level 3 menu item C</span>
+							<ul>
+								<li><span>Level 4 item A</span></li>
+								<li><span>Level 4 item B</span></li>
+							</ul>
+						</li>
+						<li><span>Level 3 item D</span></li>
+					</ul>
+				<li><span>Level 2 menu item B</span>
+					<ul>
+						<li><span>Level 3 item A</span></li>
+						<li><span>Level 3 item B</span></li>
+						<li><span>Level 3 menu item C</span>
+							<ul>
+								<li><span>Level 4 item A</span></li>
+								<li><span>Level 4 item B</span></li>
+							</ul>
+						</li>
+						<li><span>Level 3 item D</span></li>
+					</ul>
+				</li>
+			</ul>
+		<li><span>Level 1 menu item B
+			<ul>
+				<li><span>Level 2 item A</li>
+				<li><span>Level 2 item B</li>
+				<li><span>Level 2 item C</li>
+			</ul>
+		</li>
+		<li><span>Level 1 item C</li>
+	</ul>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿var img_path = "../../img/";
+﻿var img_path = "../../src/img/";
 var icplus = "drill_plus.png";
 var icminus = "drill_minus.png";
 
@@ -7,24 +7,29 @@ var ic_minus = img_path + icminus;
 
 (function ($) {
 
-    $.fn.qtree = function () {
+    $.fn.qtree = function ( options ) {
+		
+		var opts = $.extend( {}, $.fn.qtree.defaults, options);
+		
         this.find("li:has(ul) > span").on("click", function () {
             $(this).parent().find("ul:first > li").toggle();
             toggleIcon($(this).parent());
         });
 
-		this.find("li").draggable({ revert: true, helper: "clone" });
-		this.parent().droppable({
-			accept: "li",
-			classes: {
-				"ui-droppable-active": "ui-state-active",
-				"ui-droppable-hover": "ui-state-hover"
-			},
-			drop: function(event, ui) {
-				createList(ui.draggable);
-				$(this).find('ul.qtree').append(ui.draggable.clone(true));
-			}
-		});
+		if (opts.draggable) {
+			this.find("li").draggable({ revert: true, helper: "clone" });
+			this.parent().droppable({
+				accept: "li",
+				classes: {
+					"ui-droppable-active": "ui-state-active",
+					"ui-droppable-hover": "ui-state-hover"
+				},
+				drop: function(event, ui) {
+					createList(ui.draggable);
+					$(this).find('ul.qtree').append(ui.draggable.clone(true));
+				}
+			});
+		}
 		
         this.find("li:has(ul) > span").parent().css('background-image', 'url(' + ic_plus + ')');
 
@@ -41,6 +46,10 @@ var ic_minus = img_path + icminus;
     };
 
 } (jQuery));
+
+$.fn.qtree.defaults = {
+	draggable: false
+};
 
 function createList(el) {
 	var newList = [];
