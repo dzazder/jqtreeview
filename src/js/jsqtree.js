@@ -1,9 +1,10 @@
 ﻿(function ($) {
 
     $.fn.qtree = function ( options ) {
-		
+		// read default options
 		var opts = $.extend( {}, $.fn.qtree.defaults, options);
 		
+		// draggable options if enabled
 		if (opts.draggable) {
 			this.find("li").draggable({ revert: true, helper: "clone" });
 			this.parent().droppable({
@@ -19,18 +20,22 @@
 			});
 		}
 		
+		// set plus icon within sublists
 		var faiconplus = 'fa-plus';
 		if (opts.faicon.length > 0) {
 			faiconplus += '-' + opts.faicon;
 		}
 		this.find('li:has(ul) > span').before('<i class="fa ' + faiconplus + ' qtree-drill" aria-hidden="true"></i>');
+		this.find('li:not(:has(ul)) > span').before('<i class="fa fa-circle invisible" aria-hidden="true"></i>');
 		
+		// click action on drill icon
 		this.find('li:has(ul) > i.qtree-drill').on('click', function(e) {
 			e.stopPropagation();
 			$(this).parent().find('ul:first > li').toggle();
 			toggleIcon($(this), opts.faicon);
 		});
 		
+		// mark as selected click action if option is enabled
 		if (opts.clickselected) {
 			this.find('li').on('click', function (e) {
 				e.stopPropagation();
@@ -53,6 +58,7 @@
 
 } (jQuery));
 
+// default values
 $.fn.qtree.defaults = {
 	draggable: false,
 	clickselected: true,
@@ -60,6 +66,7 @@ $.fn.qtree.defaults = {
 	drillIcons: ''
 };
 
+// create list function after drop of draggable element
 function createList(el) {
 	var newList = [];
 	el.parents('li').each(function() {
@@ -83,6 +90,7 @@ function createList(el) {
 	}
 }
 
+// toggle drill icon function
 function toggleIcon(el, faicon) {
 	var icplus = 'fa-plus';
 	var icminus = 'fa-minus';

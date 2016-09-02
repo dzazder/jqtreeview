@@ -16,14 +16,20 @@ ul.qtree li {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	padding: 2px 0 2px 20px;
 	color: #333;
-	background-repeat: no-repeat;
-    background-position: 5px 5px;
 }
 
-i.qtree-drill {
+ul.qtree li span {
+	padding: 2px 4px 2px 4px;
+}
+
+li i {
 	margin-right: 5px;
 }
 
 ul.qtree li.selected > span {
 	background-color: #d5e1dd;
+}
+
+i.invisible {
+	visibility: hidden;
 }
