@@ -1,7 +1,6 @@
 ﻿ul.qtree, ul.qtree ul {
 	list-style-type: none;
 	padding: 0px;
-	
 }
 
 ul.qtree ul, ul.qtree li {
@@ -21,6 +20,10 @@ ul.qtree li {
     background-position: 5px 5px;
 }
 
-ul.qtree li.selected {
-	background-color: red;
+i.qtree-drill {
+	margin-right: 5px;
+}
+
+ul.qtree li.selected > span {
+	background-color: #d5e1dd;
 }

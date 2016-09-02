@@ -1,21 +1,9 @@
-﻿var img_path = "../../src/img/";
-var icplus = "drill_plus.png";
-var icminus = "drill_minus.png";
-
-var ic_plus = img_path + icplus;
-var ic_minus = img_path + icminus;
-
-(function ($) {
+﻿(function ($) {
 
     $.fn.qtree = function ( options ) {
 		
 		var opts = $.extend( {}, $.fn.qtree.defaults, options);
 		
-        this.find("li:has(ul) > span").on("click", function () {
-            $(this).parent().find("ul:first > li").toggle();
-            toggleIcon($(this).parent());
-        });
-
 		if (opts.draggable) {
 			this.find("li").draggable({ revert: true, helper: "clone" });
 			this.parent().droppable({
@@ -31,24 +19,45 @@ var ic_minus = img_path + icminus;
 			});
 		}
 		
-        this.find("li:has(ul) > span").parent().css('background-image', 'url(' + ic_plus + ')');
-
-        this.find("li").on("click", function (e) {
-            e.stopPropagation();
-            var spanSelected = $(this).find("span").first();
-            if (spanSelected.hasClass('selected')) {
-                spanSelected.removeClass('selected');
-            }
-            else {
-                spanSelected.addClass('selected');
-            }
-        });
+		var faiconplus = 'fa-plus';
+		if (opts.faicon.length > 0) {
+			faiconplus += '-' + opts.faicon;
+		}
+		this.find('li:has(ul) > span').before('<i class="fa ' + faiconplus + ' qtree-drill" aria-hidden="true"></i>');
+		
+		this.find('li:has(ul) > i.qtree-drill').on('click', function(e) {
+			e.stopPropagation();
+			$(this).parent().find('ul:first > li').toggle();
+			toggleIcon($(this), opts.faicon);
+		});
+		
+		if (opts.clickselected) {
+			this.find('li').on('click', function (e) {
+				e.stopPropagation();
+				var liselected = $(this);
+				if (liselected.hasClass('selected')) {
+					liselected.removeClass('selected');
+					liselected.find('li').each(function() {
+						$(this).removeClass('selected');
+					});
+				}
+				else {
+					liselected.addClass('selected');
+					liselected.find('li').each(function() {
+						$(this).addClass('selected');
+					});
+				}
+			});
+		}
     };
 
 } (jQuery));
 
 $.fn.qtree.defaults = {
-	draggable: false
+	draggable: false,
+	clickselected: true,
+	faicon: '',
+	drillIcons: ''
 };
 
 function createList(el) {
@@ -72,15 +81,22 @@ function createList(el) {
 	else {
 		result = el;
 	}
-	
-	console.log(result);
 }
 
-function toggleIcon(el) {
-    if (el.css('background-image').toLowerCase().indexOf(icplus.toLowerCase()) > 0) {
-        el.css('background-image', 'url(' + ic_minus + ')');
-    }
-    else {
-        el.css('background-image', 'url(' + ic_plus + ')');
-    }
+function toggleIcon(el, faicon) {
+	var icplus = 'fa-plus';
+	var icminus = 'fa-minus';
+	if (faicon.length > 0) {
+		icplus += '-' + faicon;
+		icminus += '-' + faicon;
+	}
+	
+	if (el.hasClass(icplus)) {
+		el.removeClass(icplus);
+		el.addClass(icminus);
+	}
+	else {
+		el.removeClass(icminus);
+		el.addClass(icplus);
+	}
 }
