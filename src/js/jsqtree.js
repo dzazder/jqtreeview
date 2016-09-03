@@ -19,24 +19,36 @@
 			toggleIcon($(this), opts.faicon);
 		});
 		
-		// mark as selected click action if option is enabled
-		if (opts.clickselected) {
-			this.find('li').on('click', function (e) {
-				e.stopPropagation();
-				var liselected = $(this);
-				if (liselected.hasClass('selected')) {
-					liselected.removeClass('selected');
-					liselected.find('li').each(function() {
-						$(this).removeClass('selected');
+		// click action if option is enabled
+		if (opts.clickaction) {
+			switch (opts.clickaction) {
+				case 'select': 	// element will be mark as selected
+					this.find('li').on('click', function (e) {
+						e.stopPropagation();
+						var liselected = $(this);
+						if (liselected.hasClass('selected')) {
+							liselected.removeClass('selected');
+							liselected.find('li').each(function() {
+								$(this).removeClass('selected');
+							});
+						}
+						else {
+							liselected.addClass('selected');
+							liselected.find('li').each(function() {
+								$(this).addClass('selected');
+							});
+						}
 					});
-				}
-				else {
-					liselected.addClass('selected');
-					liselected.find('li').each(function() {
-						$(this).addClass('selected');
+					break;
+				case 'drill':	// sublist will be show/hide
+					this.find('li').on('click', function (e) {
+						e.stopPropagation();
+						$(this).find('ul:first > li').toggle();
+						toggleIcon($(this).find('i.qtree-drill').first(), opts.faicon);
 					});
-				}
-			});
+					break;
+			}
+			
 		}
 		
 		// draggable options if enabled
@@ -66,7 +78,7 @@
 // default values
 $.fn.qtree.defaults = {
 	draggable: false,
-	clickselected: true,
+	clickaction: 'nothing',	// available values: nothing, select, drill
 	faicon: '',
 	drillIcons: '',
 	liclass: 'default'
